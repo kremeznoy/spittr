@@ -17,7 +17,6 @@ import ua.krem.spittr.data.SpittleRepository;
  */
 @Controller
 @ComponentScan("ua.krem.spittr.data")
-//@RequestMapping("/spittles")
 public class SpittleController {
     private SpittleRepository spittleRepository;
 
