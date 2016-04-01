@@ -25,6 +25,7 @@ public class SpittleControllerTest {
         List<Spittle> expectedSpittles = createSpittleList(3);
         SpittleRepository spittleRepository = org.mockito.Mockito.mock(SpittleRepository.class);
         org.mockito.Mockito.when(spittleRepository.findSpittles(Long.MAX_VALUE, 3)).thenReturn(expectedSpittles);
+        // org.mockito.Mockito.when(spittleRepository.findSpittles(1000000, 3)).thenReturn(expectedSpittles);
 
         SpittleController spittleController = new SpittleController(spittleRepository);
         MockMvc mockMvc = standaloneSetup(spittleController).setSingleView(
@@ -34,17 +35,20 @@ public class SpittleControllerTest {
                 andExpect(model().attribute("spittleList", org.junit.matchers.JUnitMatchers.hasItems(expectedSpittles.toArray())));
     }
 
-    @Test
-    public void shouldGiveYouSpittlesView() throws Exception {
-        List<Spittle> expectedSpittles = createSpittleList(3);
+    /*@Test
+    public void shouldShowPagedSpittles() throws Exception {
+        List<Spittle> expectedSpittles = createSpittleList(6);
         SpittleRepository spittleRepository = org.mockito.Mockito.mock(SpittleRepository.class);
-        org.mockito.Mockito.when(spittleRepository.findSpittles(Long.MAX_VALUE, 3)).thenReturn(expectedSpittles);
+        org.mockito.Mockito.when(spittleRepository.findSpittles(238900,6)).thenReturn(expectedSpittles);
 
         SpittleController spittleController = new SpittleController(spittleRepository);
-        MockMvc mockMvc = standaloneSetup(spittleController).build();
+        MockMvc mockMvc = standaloneSetup(spittleController)
+                .setSingleView(new InternalResourceView("/WEB-INF/views/spittles.jsp")).build();
 
-        mockMvc.perform(get("/spittles")).andExpect(view().name("spittles"));
-    }
+        mockMvc.perform(get("/spittles?max=238900&count=6")).andExpect(view().name("spittles"))
+                .andExpect(model().attributeExists("spittleList"))
+                .andExpect(model().attribute("spittleList", org.junit.matchers.JUnitMatchers.hasItem(expectedSpittles.toArray())));
+    }*/
 
     private List<Spittle> createSpittleList(int count) {
         List<Spittle> spittleList = new ArrayList<>();
