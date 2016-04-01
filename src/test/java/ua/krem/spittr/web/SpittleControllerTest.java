@@ -34,6 +34,18 @@ public class SpittleControllerTest {
                 andExpect(model().attribute("spittleList", org.junit.matchers.JUnitMatchers.hasItems(expectedSpittles.toArray())));
     }
 
+    @Test
+    public void shouldGiveYouSpittlesView() throws Exception {
+        List<Spittle> expectedSpittles = createSpittleList(3);
+        SpittleRepository spittleRepository = org.mockito.Mockito.mock(SpittleRepository.class);
+        org.mockito.Mockito.when(spittleRepository.findSpittles(Long.MAX_VALUE, 3)).thenReturn(expectedSpittles);
+
+        SpittleController spittleController = new SpittleController(spittleRepository);
+        MockMvc mockMvc = standaloneSetup(spittleController).build();
+
+        mockMvc.perform(get("/spittles")).andExpect(view().name("spittles"));
+    }
+
     private List<Spittle> createSpittleList(int count) {
         List<Spittle> spittleList = new ArrayList<>();
         for (int i=0; i<count; i++) {
