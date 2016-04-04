@@ -24,4 +24,10 @@ public class SpittleRepositoryImpl implements SpittleRepository {
         }
         return spittleList;
     }
+
+    @Override
+    public Spittle findOne(long id) {
+        Spittle spittleForReturn = new Spittle("Single Spittle from SpittleRepositoryImpl with ID: " + id, new Date());
+        return spittleForReturn;
+    }
 }

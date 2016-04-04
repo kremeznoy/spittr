@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 @Controller
 @ComponentScan("ua.krem.spittr.data")
-@RequestMapping(value = "/spittles")
+//@RequestMapping(value = "/spittles")
 public class SpittleController {
     // Should be 9223372036854775807
     private static final String MAX_LONG_AS_STRING = Long.toString(Long.MAX_VALUE);
@@ -32,8 +33,8 @@ public class SpittleController {
         this.spittleRepository = spittleRepository;
     }
 
-    //@RequestMapping(value = "/spittles", method = RequestMethod.GET)
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/spittles", method = RequestMethod.GET)
+    //@RequestMapping(method = RequestMethod.GET)
     public String spittles(Model model) {
         model.addAttribute("spittleList", spittleRepository.findSpittles(Long.MAX_VALUE, 3));
         return "spittles";
@@ -46,4 +47,10 @@ public class SpittleController {
 
         return spittleRepository.findSpittles(max, count);
     }*/
+
+    @RequestMapping(value = "/spittles/{spittleId}", method = RequestMethod.GET)
+    public String spittle(@PathVariable("spittleId") long spittleId, Model model) {
+        model.addAttribute(spittleRepository.findOne(spittleId));
+        return "spittle";
+    }
 }
