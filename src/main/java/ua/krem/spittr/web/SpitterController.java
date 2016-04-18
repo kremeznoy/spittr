@@ -6,14 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ua.krem.spittr.data.Spitter;
 import ua.krem.spittr.data.SpitterRepository;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Description:
@@ -40,11 +40,19 @@ public class SpitterController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String processRegistration(@ModelAttribute("spitter") @Valid Spitter spitter, BindingResult bindingResult) {
+    public String processRegistration(@RequestPart("profilePicture") MultipartFile profilePicture,
+            @ModelAttribute("spitter") @Valid Spitter spitter, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "registerForm";
         }
         spitterRepository.save(spitter);
+        try {
+            profilePicture.transferTo(new File(profilePicture.getOriginalFilename()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("Finally in file copying to /data/spittr/");
+        }
         return "redirect:/spitter/" + spitter.getUsername();
     }
 

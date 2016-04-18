@@ -2,6 +2,9 @@ package ua.krem.spittr.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration;
+
 /**
  * Description:
  * ====================================
@@ -24,5 +27,11 @@ public class SpittrWebAppInitializer extends AbstractAnnotationConfigDispatcherS
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[] {WebConfig.class};
+    }
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        // registration.setMultipartConfig(new MultipartConfigElement("/tmp/spittr/uploads", 20000000, 40000000, 0));
+        registration.setMultipartConfig(new MultipartConfigElement("/", 20000000, 40000000, 0));
     }
 }
