@@ -19,5 +19,10 @@
   <a href="<c:url value="/spittles" />">Spittles</a> |
   <a href="<c:url value="/spitter/register" />">Register</a> |
   <a href="<c:url value="/spittles/666" />">666 Spittle</a>
+  <br/>
+  <c:url var="logoutUrl" value="/logout"/>
+  <form action="${logoutUrl}" method="post">
+    <input type="submit" value="Logout"/>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </body>
 </html>

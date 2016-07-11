@@ -16,5 +16,6 @@
   <c:out value="${spitter.username}" /><br/>
   <c:out value="${spitter.firstName}" />
   <c:out value="${spitter.lastName}" />
+  <a href="<c:url value="j_spring_security_logout" />" > Logout</a>
 </body>
 </html>
